@@ -1,4 +1,6 @@
 class PostsController < ApplicationController
+  skip_before_action :verify_authenticity_token, only: [:create]
+
   def index
     @posts = if params[:user]
       Post.of_user(params[:user])
