@@ -1,0 +1,6 @@
+- @posts.each do |post|
+  %hr 
+  %h2= post.title
+  %div= post.user.try(:email)
+  %p= post.content
+  %p= post.created_at 
