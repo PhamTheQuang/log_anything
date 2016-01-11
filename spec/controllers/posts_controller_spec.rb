@@ -11,12 +11,10 @@ describe PostsController do
     context 'user auth is invalid' do      
       let(:params) do
         {
-          post: {
-            user_id: user.id,
-            log_token: 'invalid token',
-            title: title,
-            content: content
-          }
+          user_id: user.id,
+          log_token: 'invalid token',
+          title: title,
+          content: content
         } 
       end
 
@@ -28,12 +26,10 @@ describe PostsController do
     context 'user auth is valid' do
       let(:params) do
         {
-          post: {
-            user_id: user.id,
-            log_token: user.log_token,
-            title: title,
-            content: content
-          }
+          user_id: user.id,
+          log_token: user.log_token,
+          title: title,
+          content: content        
         }
       end
 
