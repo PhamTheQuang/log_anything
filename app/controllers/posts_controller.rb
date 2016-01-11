@@ -2,23 +2,28 @@ class PostsController < ApplicationController
   skip_before_action :verify_authenticity_token, only: [:create]
 
   def index
-    @posts = if params[:user]
-      Post.of_user(params[:user]).order(created_at: :desc)
+    @posts = if params[:email]
+      Post.of_user(params[:email]).order(created_at: :desc)
     else
-      Post.all.order(created_at: :desc)
-    end
+      Post.all
+    end.order(created_at: :desc)
   end
 
   def create
-    if user = User.has_log_token(post_params[:user_id], params[:log_token]) && Post.create(post_params)      
-      render json: { success: true }
+    if user = User.has_log_token(post_params[:user_id], params[:log_token])
+      post = Post.new(post_params)
+      if post.save      
+        render json: { success: true }
+      else
+        render json: { success: false, errors: post.errors.full_messages }, status: :unprocessable_entity  
+      end  
     else
-      render json: { success: false, errors: 'Invalid user' }, status: :unprocessable_entity
+      render json: { success: false, errors: 'Invalid user' }, status: :unauthorized
     end
   end
 
   private
   def post_params
-    params.permit(:user_id, :title, :content)
+    params.permit(:user_id, :title, :content, :unique_id)
   end
 end
