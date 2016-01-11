@@ -3,9 +3,9 @@ class PostsController < ApplicationController
 
   def index
     @posts = if params[:user]
-      Post.of_user(params[:user])
+      Post.of_user(params[:user]).order(created_at: :desc)
     else
-      Post.all
+      Post.all.order(created_at: :desc)
     end
   end
 
