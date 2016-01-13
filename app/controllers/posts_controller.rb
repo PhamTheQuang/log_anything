@@ -24,6 +24,7 @@ class PostsController < ApplicationController
 
   private
   def post_params
+    params[:unique_id] = params[:uniqueid] if params[:uniqueid]
     params.permit(:user_id, :title, :content, :unique_id)
   end
 end
